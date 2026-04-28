@@ -1,28 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #0a0a0a;
   --foreground: #ffffff;
-  --neon-green: #39ff14;
-  --neon-green-dim: #2dd10f;
-  --red-accent: #ef4444;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  /* PRIMARY: Gym Red */
+  --red-primary: #e11d1d;
+  --red-primary-bright: #ff2222;
+  --red-primary-dim: #b91c1c;
+  --red-primary-glow: rgba(225, 29, 29, 0.4);
+  --red-primary-soft: rgba(225, 29, 29, 0.15);
+  /* Legacy neon vars → mapped to red for backward compat */
+  --neon-green: #e11d1d;
+  --neon-green-dim: #b91c1c;
+  --red-accent: #e11d1d;
+  /* Surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
   --card-bg: #111111;
-  --card-border: #1f1f1f;
+  --card-border: #1e1e1e;
   --text-muted: #9ca3af;
 }
 
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-neon: #39ff14;
-  --color-neon-dim: #2dd10f;
-  --color-accent-red: #ef4444;
+  --color-neon: #e11d1d;
+  --color-neon-dim: #b91c1c;
+  --color-accent-red: #e11d1d;
   --color-card: #111111;
-  --color-glass: rgba(255,255,255,0.05);
+  --color-glass: rgba(255,255,255,0.04);
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Oswald', 'Inter', system-ui, sans-serif;
 }
 
 /* Keyframe animations */
@@ -47,8 +56,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff1440; }
-  50%       { box-shadow: 0 0 20px #39ff14, 0 0 40px #39ff14, 0 0 80px #39ff1460; }
+  0%, 100% { box-shadow: 0 0 10px #e11d1d, 0 0 20px #e11d1d, 0 0 40px rgba(225,29,29,0.25); }
+  50%       { box-shadow: 0 0 20px #e11d1d, 0 0 40px #e11d1d, 0 0 80px rgba(225,29,29,0.4); }
 }
 
 @keyframes float {
@@ -87,6 +96,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Headings — use Oswald for gym bold display feel */
+h1, h2, h3, h4 {
+  font-family: 'Oswald', 'Inter', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -95,43 +110,43 @@ body {
   background: #0a0a0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #39ff14;
+  background: #e11d1d;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2dd10f;
+  background: #ff2222;
 }
 
 /* Selection */
 ::selection {
-  background: #39ff1440;
-  color: #39ff14;
+  background: rgba(225, 29, 29, 0.3);
+  color: #ffffff;
 }
 
 /* Utility classes */
 .neon-text {
-  color: #39ff14;
-  text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff1480;
+  color: #e11d1d;
+  text-shadow: 0 0 10px #e11d1d, 0 0 20px #e11d1d, 0 0 40px rgba(225,29,29,0.5);
 }
 
 .neon-text-soft {
-  color: #39ff14;
-  text-shadow: 0 0 8px #39ff1460;
+  color: #e11d1d;
+  text-shadow: 0 0 8px rgba(225,29,29,0.4);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
 }
 
 .glass-card-dark {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(57, 255, 20, 0.15);
+  border: 1px solid rgba(225, 29, 29, 0.2);
   border-radius: 16px;
 }
 
@@ -140,22 +155,24 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #39ff14, #2dd10f);
-  color: #000000;
-  font-weight: 700;
+  background: #e11d1d;
+  color: #ffffff;
+  font-family: 'Oswald', 'Inter', sans-serif;
+  font-weight: 600;
   padding: 12px 28px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   text-decoration: none;
   font-size: 15px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #2dd10f, #25b80d);
-  box-shadow: 0 0 20px #39ff1460, 0 4px 20px rgba(57, 255, 20, 0.3);
+  background: #ff2222;
+  box-shadow: 0 0 20px rgba(225,29,29,0.5), 0 4px 20px rgba(225,29,29,0.3);
   transform: translateY(-2px);
 }
 
@@ -165,25 +182,28 @@ body {
   justify-content: center;
   gap: 8px;
   background: transparent;
-  color: #39ff14;
+  color: #e11d1d;
+  font-family: 'Oswald', 'Inter', sans-serif;
   font-weight: 600;
   padding: 11px 28px;
-  border-radius: 8px;
-  border: 2px solid #39ff14;
+  border-radius: 6px;
+  border: 2px solid #e11d1d;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   text-decoration: none;
   font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .btn-secondary:hover {
-  background: #39ff1415;
-  box-shadow: 0 0 16px #39ff1440;
+  background: rgba(225,29,29,0.12);
+  box-shadow: 0 0 16px rgba(225,29,29,0.3);
   transform: translateY(-2px);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #39ff14, #00ff88, #39ff14);
+  background: linear-gradient(135deg, #ff2222, #ff6666, #e11d1d);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -193,14 +213,16 @@ body {
 
 .section-title {
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  font-family: 'Oswald', 'Inter', sans-serif;
+  text-transform: uppercase;
 }
 
 .neon-border {
-  border: 1px solid #39ff1440;
-  box-shadow: 0 0 20px #39ff1410, inset 0 0 20px #39ff1405;
+  border: 1px solid rgba(225, 29, 29, 0.3);
+  box-shadow: 0 0 20px rgba(225,29,29,0.06), inset 0 0 20px rgba(225,29,29,0.03);
 }
 
 .neon-glow {
@@ -214,12 +236,25 @@ body {
 /* Background pattern */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(57,255,20,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(57,255,20,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(225,29,29,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(225,29,29,0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 .bg-radial-glow {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(57,255,20,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(225,29,29,0.15) 0%, transparent 70%);
 }
 
+/* Red accent divider */
+.accent-line {
+  width: 60px;
+  height: 4px;
+  background: #e11d1d;
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
+}
+
+/* Red highlight for inline text */
+.text-red-accent {
+  color: #e11d1d;
+}
