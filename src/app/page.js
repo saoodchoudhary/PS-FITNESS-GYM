@@ -9,19 +9,14 @@ const fadeUp = {
   hidden:  { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
 };
-/* ✅ FIX: x-based animations replaced with y-only on mobile via custom variant */
+// FIX: x offset reduced to 30 (was 60) + clipPath keeps it inside viewport
 const fadeLeft = {
-  hidden:  { opacity: 0, x: -50 },
+  hidden:  { opacity: 0, x: -30 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
 };
 const fadeRight = {
-  hidden:  { opacity: 0, x: 50 },
+  hidden:  { opacity: 0, x: 30 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
-};
-/* Safe fade — no x/y movement, only opacity. Used for mobile-sensitive sections */
-const fadeSafe = {
-  hidden:  { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 };
 const stagger = { visible: { transition: { staggerChildren: 0.1 } } };
 
@@ -51,6 +46,7 @@ function Counter({ target, suffix = '' }) {
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
+/* ─── Star SVG ─── */
 function Star({ size = 14, color = '#f59e0b' }) {
   return (
     <svg width={size} height={size} fill={color} viewBox="0 0 24 24">
@@ -64,9 +60,9 @@ const features = [
   { icon: '🏋️', title: 'Expert Trainers',    desc: 'Certified professionals with years of experience transforming bodies and lives across all fitness levels.' },
   { icon: '⚡',  title: 'Modern Equipment',   desc: 'State-of-the-art machines and free weights to power every kind of workout — from beginner to elite athlete.' },
   { icon: '🛡️', title: 'Beginner Friendly',  desc: 'No experience needed. Our trainers guide you from day one with a fully personalised training plan.' },
-  { icon: '💰',  title: 'Affordable Plans',   desc: 'Premium fitness without premium price tags. Plans starting from just ₹999/month with no hidden costs.' },
-  { icon: '📊',  title: 'Progress Tracking',  desc: 'Weekly body measurements, strength tracking and nutrition reviews to keep you on the fastest path forward.' },
-  { icon: '🏆',  title: 'Results Guaranteed', desc: 'Visible results within 30 days or we extend your membership free. We stand by every program we run.' },
+  { icon: '💰', title: 'Affordable Plans',    desc: 'Premium fitness without premium price tags. Plans starting from just ₹999/month with no hidden costs.' },
+  { icon: '📊', title: 'Progress Tracking',  desc: 'Weekly body measurements, strength tracking and nutrition reviews to keep you on the fastest path forward.' },
+  { icon: '🏆', title: 'Results Guaranteed', desc: 'Visible results within 30 days or we extend your membership free. We stand by every program we run.' },
 ];
 
 const services = [
@@ -84,37 +80,23 @@ const stats = [
 ];
 
 const testimonials = [
-  { name: 'Arjun Mehta',  role: 'IT Professional', text: 'Lost 15 kg in 4 months! The trainers are amazing. Equipment is top-notch and the atmosphere is incredibly motivating.' },
-  { name: 'Sneha Sharma', role: 'Homemaker',       text: 'Best gym in Gurugram — no doubt. Very supportive environment. Ladies feel completely safe and welcomed here.' },
-  { name: 'Rahul Verma',  role: 'Student',         text: 'Gained 8 kg of muscle in 3 months following their program. Affordable membership with world-class facilities.' },
+  { name: 'Arjun Mehta',  role: 'IT Professional', text: 'Lost 15 kg in 4 months! The trainers are amazing. Equipment is top-notch and the atmosphere is incredibly motivating.', stars: 5 },
+  { name: 'Sneha Sharma', role: 'Homemaker',       text: 'Best gym in Gurugram — no doubt. Very supportive environment. Ladies feel completely safe and welcomed here.', stars: 5 },
+  { name: 'Rahul Verma',  role: 'Student',         text: 'Gained 8 kg of muscle in 3 months following their program. Affordable membership with world-class facilities.', stars: 5 },
 ];
 
+/* ──────────────────────────────────────────────────
+   HOME PAGE
+────────────────────────────────────────────────── */
 export default function HomePage() {
-  /* ✅ FIX: detect mobile once on mount */
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  /* On mobile, swap x-based variants with safe y-only variant */
-  const leftVariant  = isMobile ? fadeSafe : fadeLeft;
-  const rightVariant = isMobile ? fadeSafe : fadeRight;
-
   return (
-    /*
-     * ✅ KEY FIX: overflow-x-hidden on the root wrapper
-     * This is the single most reliable fix — clips any element that
-     * temporarily renders outside the viewport during x-animations.
-     */
-    <div style={{ overflowX: 'hidden' }}>
+    // ✅ FIX #1: overflow-x hidden on the root wrapper — prevents ANY section from causing horizontal scroll
+    <div style={{ overflowX: 'hidden', width: '100%' }}>
 
       {/* ════════════════════════════════════════════
           HERO
       ════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center" style={{ overflow: 'hidden' }}>
 
         {/* Background */}
         <div className="absolute inset-0">
@@ -134,7 +116,7 @@ export default function HomePage() {
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-24 lg:pt-32 lg:pb-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
-            {/* Left: Copy */}
+            {/* Left copy */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -147,7 +129,7 @@ export default function HomePage() {
                 style={{ background: 'rgba(225,29,29,0.12)', border: `1px solid ${RED_BORDER}`, color: RED }}
               >
                 <span className="w-2 h-2 rounded-full" style={{ background: RED, boxShadow: `0 0 8px ${RED}`, animation: 'pulse 2s infinite' }} />
-                <span>⭐ 5.0 Rated · #1 Gym in Gurugram · 398 Reviews</span>
+                <span>5.0 Rated · #1 Gym in Gurugram<span className="hidden sm:inline-block" > · 398 Reviews</span></span>
               </motion.div>
 
               <motion.h1
@@ -223,13 +205,13 @@ export default function HomePage() {
                   href="tel:+919876543210"
                   className="inline-flex items-center gap-2 rounded-xl font-semibold"
                   style={{
-                    color: 'rgba(255,255,255,0.6)',
+                    background: 'transparent', color: 'rgba(255,255,255,0.6)',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     padding: '14px 20px',
                     transition: 'color 0.2s ease',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
                 >
                   <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -251,7 +233,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Right: Stats — desktop only */}
+            {/* Desktop stats */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -271,6 +253,7 @@ export default function HomePage() {
                   <p className="text-xs mt-2 leading-tight" style={{ color: MUTED }}>{label}</p>
                 </motion.div>
               ))}
+
               <motion.div
                 variants={fadeUp}
                 className="col-span-2 flex items-center justify-between rounded-2xl px-5 py-4"
@@ -278,9 +261,7 @@ export default function HomePage() {
               >
                 <div>
                   <p className="text-white font-bold text-sm">Google Reviews</p>
-                  <div className="flex gap-0.5 mt-1">
-                    {[1,2,3,4,5].map((s) => <Star key={s} size={13} color="#f59e0b"/>)}
-                  </div>
+                  <div className="flex gap-0.5 mt-1">{[1,2,3,4,5].map((s) => <Star key={s} size={13} color="#f59e0b"/>)}</div>
                   <p className="text-xs mt-1" style={{ color: MUTED }}>398 verified reviews</p>
                 </div>
                 <div style={{ fontFamily: 'Oswald, sans-serif', fontSize: '2.8rem', fontWeight: 800, color: RED }}>5.0</div>
@@ -342,7 +323,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════
           WHY CHOOSE US
       ════════════════════════════════════════════ */}
-      <section style={{ background: '#0a0a0a', padding: 'clamp(4rem, 8vw, 7rem) 0' }}>
+      <section style={{ background: '#0a0a0a', padding: 'clamp(4rem, 8vw, 7rem) 0', overflow: 'hidden' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -376,17 +357,15 @@ export default function HomePage() {
                 key={f.title}
                 variants={fadeUp}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="p-6 rounded-2xl relative overflow-hidden cursor-default"
+                className="p-6 rounded-2xl relative overflow-hidden group cursor-default"
                 style={{ background: CARD_BG, border: '1px solid rgba(255,255,255,0.06)', transition: 'border-color 0.25s ease, box-shadow 0.25s ease' }}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = RED_BORDER; e.currentTarget.style.boxShadow = '0 4px 24px rgba(225,29,29,0.08)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <div className="absolute top-4 right-5 font-black pointer-events-none select-none"
-                  style={{ fontFamily: 'Oswald, sans-serif', fontSize: '4rem', color: 'rgba(225,29,29,0.05)', lineHeight: 1 }}>
+                <div className="absolute top-4 right-5 font-black pointer-events-none select-none" style={{ fontFamily: 'Oswald, sans-serif', fontSize: '4rem', color: 'rgba(225,29,29,0.05)', lineHeight: 1 }}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 text-2xl"
-                  style={{ background: RED_SOFT, border: `1px solid ${RED_BORDER}` }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 text-2xl" style={{ background: RED_SOFT, border: `1px solid ${RED_BORDER}` }}>
                   {f.icon}
                 </div>
                 <h3 className="font-bold text-white text-lg mb-2" style={{ fontFamily: 'Oswald, sans-serif', letterSpacing: '0.03em' }}>{f.title}</h3>
@@ -400,7 +379,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════
           SERVICES
       ════════════════════════════════════════════ */}
-      <section style={{ background: '#060606', padding: 'clamp(4rem, 8vw, 7rem) 0' }}>
+      <section style={{ background: '#060606', padding: 'clamp(4rem, 8vw, 7rem) 0', overflow: 'hidden' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -439,7 +418,7 @@ export default function HomePage() {
                 key={s.title}
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className="rounded-2xl overflow-hidden cursor-default flex flex-col"
+                className="rounded-2xl overflow-hidden group cursor-default flex flex-col"
                 style={{ background: CARD_BG, border: '1px solid rgba(255,255,255,0.06)' }}
               >
                 <div className="relative overflow-hidden" style={{ height: '200px' }}>
@@ -453,12 +432,10 @@ export default function HomePage() {
                     onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.filter = 'brightness(0.7)'; }}
                   />
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%)' }} />
-                  <span className="absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded"
-                    style={{ background: RED, color: '#fff', fontFamily: 'Oswald, sans-serif', letterSpacing: '0.06em' }}>
+                  <span className="absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded" style={{ background: RED, color: '#fff', fontFamily: 'Oswald, sans-serif', letterSpacing: '0.06em' }}>
                     {s.tag}
                   </span>
-                  <h3 className="absolute bottom-3 left-4 font-bold text-white"
-                    style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.15rem', letterSpacing: '0.03em', textTransform: 'uppercase' }}>
+                  <h3 className="absolute bottom-3 left-4 font-bold text-white" style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.15rem', letterSpacing: '0.03em', textTransform: 'uppercase' }}>
                     {s.title}
                   </h3>
                 </div>
@@ -484,26 +461,29 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════
-          TRANSFORMATION — ✅ isMobile-aware variants
+          TRANSFORMATION
+          ✅ FIX #2: overflow:hidden on this section
+          (fadeLeft + fadeRight cause horizontal scroll)
       ════════════════════════════════════════════ */}
-      <section style={{ background: '#0a0a0a', padding: 'clamp(4rem, 8vw, 7rem) 0' }}>
+      <section style={{ background: '#0a0a0a', padding: 'clamp(4rem, 8vw, 7rem) 0', overflow: 'hidden' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-            {/* Left: Content */}
+            {/* Left */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              variants={leftVariant}
+              variants={fadeLeft}
             >
               <p className="text-sm font-bold uppercase tracking-widest mb-2" style={{ color: RED, fontFamily: 'Oswald, sans-serif' }}>
                 Real Results
               </p>
-              <h2 className="text-white mb-6"
-                style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 700, lineHeight: 1.1, textTransform: 'uppercase' }}>
-                Real People,{' '}
-                <span style={{ color: RED }}>Real Transformations</span>
+              <h2
+                className="text-white mb-6"
+                style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 700, lineHeight: 1.1, textTransform: 'uppercase' }}
+              >
+                Real People, <span style={{ color: RED }}>Real Transformations</span>
               </h2>
               <p className="mb-8 leading-relaxed" style={{ color: '#9ca3af' }}>
                 Our members achieve incredible results through disciplined training, expert guidance, and nutrition plans crafted for their body type and goals.
@@ -516,8 +496,7 @@ export default function HomePage() {
                   'Visible results guaranteed within 30 days',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: RED_SOFT, border: `1px solid ${RED_BORDER}` }}>
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: RED_SOFT, border: `1px solid ${RED_BORDER}` }}>
                       <svg width="11" height="11" fill="none" stroke={RED} strokeWidth="2.5" viewBox="0 0 24 24">
                         <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
@@ -549,7 +528,7 @@ export default function HomePage() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              variants={rightVariant}
+              variants={fadeRight}
               className="grid grid-cols-2 gap-3"
             >
               {[
@@ -558,14 +537,16 @@ export default function HomePage() {
                 { src: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80', label: 'Cardio',      tall: false },
                 { src: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=500&q=80', label: 'Flexibility', tall: false },
               ].map(({ src, label, tall }) => (
-                <div key={label} className="relative overflow-hidden rounded-2xl group"
-                  style={{ aspectRatio: tall ? '3/4' : '1/1' }}>
-                  <img src={src} alt={label} className="w-full h-full object-cover" loading="lazy"
-                    style={{ filter: 'brightness(0.75)', transition: 'transform 0.5s ease' }} />
-                  <div className="absolute inset-0 group-hover:opacity-0"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)', transition: 'opacity 0.3s ease' }} />
-                  <span className="absolute bottom-3 left-3 text-xs font-bold px-2 py-1 rounded"
-                    style={{ background: 'rgba(225,29,29,0.85)', color: '#fff', fontFamily: 'Oswald, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <div key={label} className="relative overflow-hidden rounded-2xl group" style={{ aspectRatio: tall ? '3/4' : '1/1' }}>
+                  <img
+                    src={src}
+                    alt={label}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    style={{ transition: 'transform 0.5s ease', filter: 'brightness(0.75)' }}
+                  />
+                  <div className="absolute inset-0 group-hover:opacity-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)', transition: 'opacity 0.3s ease' }} />
+                  <span className="absolute bottom-3 left-3 text-xs font-bold px-2 py-1 rounded" style={{ background: 'rgba(225,29,29,0.85)', color: '#fff', fontFamily: 'Oswald, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     {label}
                   </span>
                 </div>
@@ -579,7 +560,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════
           TESTIMONIALS
       ════════════════════════════════════════════ */}
-      <section style={{ background: '#060606', padding: 'clamp(4rem, 8vw, 7rem) 0' }}>
+      <section style={{ background: '#060606', padding: 'clamp(4rem, 8vw, 7rem) 0', overflow: 'hidden' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -622,12 +603,9 @@ export default function HomePage() {
                   &ldquo;
                 </div>
                 <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: '#d1d5db' }}>{t.text}</p>
-                <div className="flex gap-0.5 mb-4">
-                  {[1,2,3,4,5].map((s) => <Star key={s} size={13} color="#f59e0b"/>)}
-                </div>
+                <div className="flex gap-0.5 mb-4">{[1,2,3,4,5].map((s) => <Star key={s} size={13} color="#f59e0b"/>)}</div>
                 <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
-                    style={{ background: RED, color: '#fff', fontFamily: 'Oswald, sans-serif' }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0" style={{ background: RED, color: '#fff', fontFamily: 'Oswald, sans-serif' }}>
                     {t.name[0]}
                   </div>
                   <div>
@@ -648,7 +626,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════
           FINAL CTA
       ════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ padding: 'clamp(5rem, 10vw, 8rem) 0' }}>
+      <section className="relative" style={{ padding: 'clamp(5rem, 10vw, 8rem) 0', overflow: 'hidden' }}>
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&q=80"
@@ -659,6 +637,7 @@ export default function HomePage() {
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(225,29,29,0.1) 0%, transparent 70%)' }} />
           <div className="absolute inset-0 bg-grid opacity-15" />
         </div>
+
         <div className="relative max-w-3xl mx-auto px-4 text-center">
           <motion.div
             initial="hidden"
@@ -674,18 +653,20 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: RED, boxShadow: `0 0 6px ${RED}` }} />
               Limited Spots Available
             </motion.div>
+
             <motion.h2
               variants={fadeUp}
               className="text-white mb-6"
               style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700, lineHeight: 1.0, textTransform: 'uppercase' }}
             >
-              Ready To<br/>
-              <span style={{ color: RED }}>Transform?</span>
+              Ready To <br /><span style={{ color: RED }}>Transform?</span>
             </motion.h2>
+
             <motion.p variants={fadeUp} className="text-lg mb-10 leading-relaxed" style={{ color: '#9ca3af' }}>
               Join 500+ members already living their best lives. Start with a{' '}
               <strong className="text-white">FREE trial session</strong> — no commitment required.
             </motion.p>
+
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/join"
@@ -708,7 +689,7 @@ export default function HomePage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-xl font-semibold"
                 style={{
-                  background: 'transparent', color: '#fff',
+                  background: 'transparent', color: '#ffffff',
                   border: '2px solid rgba(255,255,255,0.25)',
                   fontFamily: 'Oswald, sans-serif',
                   letterSpacing: '0.08em',
@@ -723,6 +704,7 @@ export default function HomePage() {
                 📞 Talk to Us
               </Link>
             </motion.div>
+
             <motion.p variants={fadeUp} className="text-xs mt-6" style={{ color: '#374151' }}>
               No credit card required · Cancel anytime · Free fitness assessment included
             </motion.p>
@@ -730,6 +712,6 @@ export default function HomePage() {
         </div>
       </section>
 
-    </div> 
+    </div>
   );
 }
