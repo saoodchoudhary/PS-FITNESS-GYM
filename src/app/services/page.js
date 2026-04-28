@@ -12,28 +12,28 @@ const mainServices = [
     title: 'Weight Training',
     desc: 'Comprehensive strength training programs designed by certified coaches. From beginner to advanced, we build your program around your current level and goals.',
     benefits: ['Progressive overload programs', 'Free weights & machines', 'Strength & hypertrophy focus', 'Form coaching included'],
-    gradient: 'linear-gradient(135deg,#39ff14,#00ff88)',
+    img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=700&q=80',
   },
   {
     icon: '👤',
     title: 'Personal Training',
     desc: 'One-on-one sessions with a dedicated certified trainer who creates and evolves your program weekly based on your progress and feedback.',
     benefits: ['Fully personalised program', 'Flexible scheduling', 'Direct trainer accountability', 'Weekly plan adjustments'],
-    gradient: 'linear-gradient(135deg,#ef4444,#f97316)',
+    img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&q=80',
   },
   {
     icon: '🔥',
     title: 'Fat Loss Program',
     desc: 'Science-backed fat loss programs combining HIIT, cardio, resistance training and nutrition guidance to maximise your caloric deficit safely.',
     benefits: ['HIIT & cardio protocols', 'Nutrition planning included', 'Body composition tracking', 'Sustainable lifestyle approach'],
-    gradient: 'linear-gradient(135deg,#8b5cf6,#ec4899)',
+    img: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=700&q=80',
   },
   {
     icon: '💪',
     title: 'Muscle Gain',
     desc: 'Hypertrophy-focused training with optimised volume and intensity. Includes diet recommendations and supplement guidance for maximum muscle growth.',
     benefits: ['Hypertrophy-specific training', 'Diet & supplement guidance', 'Progress tracking system', 'Body measurement analysis'],
-    gradient: 'linear-gradient(135deg,#06b6d4,#3b82f6)',
+    img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=700&q=80',
   },
 ];
 
@@ -49,10 +49,10 @@ export default function ServicesPage() {
     <>
       {/* Hero */}
       <section className="pt-32 pb-20 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg,#0a0a0a 0%,#0f1a0f 50%,#0a0a0a 100%)' }}>
+        style={{ background: 'linear-gradient(135deg,#0a0a0a 0%,#150505 50%,#0a0a0a 100%)' }}>
         <div className="absolute inset-0 bg-radial-glow" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#39ff14' }}>What We Offer</p>
+          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#e11d1d' }}>What We Offer</p>
           <h1 className="section-title text-white mb-6">
             Our <span className="gradient-text">Services</span>
           </h1>
@@ -78,7 +78,7 @@ export default function ServicesPage() {
                   <ul className="space-y-3 mb-8">
                     {s.benefits.map((b) => (
                       <li key={b} className="flex items-center gap-3">
-                        <svg width="18" height="18" fill="none" stroke="#39ff14" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <svg width="18" height="18" fill="none" stroke="#e11d1d" strokeWidth="2.5" viewBox="0 0 24 24">
                           <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <span style={{ color: '#d1d5db' }}>{b}</span>
