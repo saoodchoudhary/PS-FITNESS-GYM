@@ -192,7 +192,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p variants={fadeUp} className="text-lg sm:text-xl mb-10 max-w-2xl" style={{ color: '#9ca3af' }}>
-              Gurugram&apos;s premier fitness destination. Expert trainers, modern equipment &amp; proven programs — all in Sector 12.
+              Gurugram's premier fitness destination. Expert trainers, modern equipment & proven programs — all in Sector 12.
             </motion.p>
 
             {/* CTAs */}

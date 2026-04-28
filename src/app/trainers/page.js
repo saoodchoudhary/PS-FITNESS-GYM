@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Our Trainers',
-  description: 'Meet the expert certified trainers at PS FITNESS GYM, Gurugram. Specialising in weight training, fat loss, yoga, nutrition, and more.',
+  description: 'Meet the expert certified trainers at PS FITNESS GYM, Gurugram. Specializing in weight training, fat loss, yoga, nutrition, and more.',
 };
 
 const trainers = [
@@ -23,7 +23,7 @@ const trainers = [
     specialization: 'Fat Loss & Cardio',
     certifications: ['ACE Certified', 'Nutrition Coaching Certified'],
     emoji: '🔥',
-    bio: 'Priya specialises in sustainable fat loss and has transformed hundreds of clients through her evidence-based cardio and nutrition programs.',
+    bio: 'Priya specializes in sustainable fat loss and has transformed hundreds of clients through her evidence-based cardio and nutrition programs.',
   },
   {
     name: 'Amit Kumar',
