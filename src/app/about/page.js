@@ -18,11 +18,11 @@ export default function AboutPage() {
       {/* Hero */}
       <section
         className="pt-32 pb-20 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg,#0a0a0a 0%,#0f1a0f 50%,#0a0a0a 100%)' }}
+        style={{ background: 'linear-gradient(135deg,#0a0a0a 0%,#150505 50%,#0a0a0a 100%)' }}
       >
         <div className="absolute inset-0 bg-radial-glow" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#39ff14' }}>About Us</p>
+          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#e11d1d' }}>About Us</p>
           <h1 className="section-title text-white mb-6">
             About <span className="gradient-text">PS FITNESS GYM</span>
           </h1>
@@ -37,7 +37,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#39ff14' }}>Our Story</p>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#e11d1d' }}>Our Story</p>
               <h2 className="section-title text-white mb-6">
                 Built With Passion,<br/>
                 <span className="gradient-text">Driven by Results</span>
@@ -49,20 +49,23 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {['Our Gym', 'Equipment', 'Training', 'Community'].map((label, i) => (
+              {[
+                { label: 'Our Gym', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80' },
+                { label: 'Equipment', img: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80' },
+                { label: 'Training', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80' },
+                { label: 'Community', img: 'https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=400&q=80' },
+              ].map((item) => (
                 <div
-                  key={label}
-                  className="rounded-2xl aspect-square flex items-end p-4"
-                  style={{
-                    background: i % 2 === 0
-                      ? 'linear-gradient(135deg,#1a1a1a,#111)'
-                      : 'linear-gradient(135deg,#111,#1a2a1a)',
-                    border: '1px solid rgba(57,255,20,0.1)',
-                  }}
+                  key={item.label}
+                  className="rounded-2xl aspect-square overflow-hidden relative"
+                  style={{ border: '1px solid rgba(225,29,29,0.2)' }}
                 >
-                  <span className="text-xs font-bold px-2 py-1 rounded" style={{ background: 'rgba(57,255,20,0.15)', color: '#39ff14' }}>
-                    {label}
-                  </span>
+                  <img src={item.img} alt={item.label} className="w-full h-full object-cover" style={{ filter: 'brightness(0.7)' }} />
+                  <div className="absolute bottom-0 left-0 right-0 p-3" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
+                    <span className="text-xs font-bold px-2 py-1 rounded" style={{ background: 'rgba(225,29,29,0.8)', color: '#fff' }}>
+                      {item.label}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -74,7 +77,7 @@ export default function AboutPage() {
       <section className="py-24" style={{ background: '#0a0a0a' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="glass-card p-8" style={{ border: '1px solid rgba(57,255,20,0.15)' }}>
+            <div className="glass-card p-8" style={{ border: '1px solid rgba(225,29,29,0.15)' }}>
               <div className="text-4xl mb-4">🎯</div>
               <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
               <p style={{ color: '#9ca3af' }}>
@@ -96,14 +99,14 @@ export default function AboutPage() {
       <section className="py-24" style={{ background: '#050505' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#39ff14' }}>Why PS FITNESS</p>
+            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: '#e11d1d' }}>Why PS FITNESS</p>
             <h2 className="section-title text-white">
               Why Choose <span className="gradient-text">Us?</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyChooseUs.map((item) => (
-              <div key={item.title} className="glass-card p-6 text-center" style={{ border: '1px solid rgba(57,255,20,0.1)' }}>
+              <div key={item.title} className="glass-card p-6 text-center" style={{ border: '1px solid rgba(225,29,29,0.1)' }}>
                 <div className="text-4xl mb-4">{item.icon}</div>
                 <h3 className="font-bold text-white mb-2">{item.title}</h3>
                 <p className="text-sm" style={{ color: '#9ca3af' }}>{item.desc}</p>
